@@ -1,0 +1,156 @@
+job: test
+saved: 2026-11-17T08:17:57+00:00
+steps: install=success run=success
+run: https://github.com/evjohn0418-arch/metac-bot-template/actions/runs/44044692939
+lines kept: 150 of 1187
+
+
+*Forecaster 2*: Probability distribution:
+- 10.00% chance of value below 7250000.0
+- 20.00% chance of value below 7500000.0
+- 40.00% chance of value below 7800000.0
+- 60.00% chance of value below 8050000.0
+- 80.00% chance of value below 8450000.0
+- 90.00% chance of value below 8850000.0
+
+*Forecaster 3*: Probability distribution:
+- 10.00% chance of value below 7150000.0
+- 20.00% chance of value below 7420000.0
+- 40.00% chance of value below 7780000.0
+- 60.00% chance of value below 8050000.0
+- 80.00% chance of value below 8420000.0
+- 90.00% chance of value below 8880000.0
+
+*Forecaster 4*: Probability distribution:
+- 10.00% chance of value below 7350000.0
+- 20.00% chance of value below 7650000.0
+- 40.00% chance of value below 7950000.0
+- 60.00% chance of value below 8250000.0
+- 80.00% chance of value below 8650000.0
+- 90.00% chance of value below 9050000.0
+
+
+
+### Research Summary
+The research states that as of November 17, 2026, FRED had not yet published a value for FY 2028 in its Federal Net Outlays series (FYONET), which is reported in millions of dollars at an annual, fiscal-year frequency. The series currently ends at FY 2026, when net outlays were $7,395,799.983 million. The eventual FY 2028 value is expected to appear as the first FRED update incorporating the Offic
+
+The research also cites Congressional Budget Office (CBO) projections. CBO's February 2026 baseline projects federal outlays at about 23.3% of GDP in 2027 and 2028, close to the 2026 level, and reports total federal outlays of roughly $7.4 trillion in FY 2026. The baseline includes an unusual $85 billion repayment to the FDIC in FY 2028, recorded as a negative outlay, which lowers that year's tota
+
+**Sources:**
+- https://fred.stlouisfed.org/series/FYONET/
+- https://fred.stlouisfed.org/data/FYONET
+- https://www.cbo.gov/system/files/2026-02/61882-Outlook-2026.pdf
+- https://www.cbo.gov/publication/62105
+
+
+
+<<<<<<<<<<<<<<<<<<<< First Rationale >>>>>>>>>>>>>>>>>>>>>
+## R1: Forecaster 1 Reasoning
+*Forecaster model*: openrouter/google/gemini-3.1-pro-preview
+
+(a) The time left until the outcome to the question is known is approximately 2 years. The data for Fiscal Year 2028 will be published by the Treasury and subsequently by FRED around October or November of 2028.
+
+(b) The outcome if nothing changed would be approximately 7,395,800, which is the net outlay figure for FY 2026. 
+
+(c) The outcome if the current trend continued would be roughly 8,077,000. Outlays grew from $6.75 trillion in FY 2024 to $7.40 trillion in FY 2026. If they continue to grow at a similar annualized rate (around 4.5%, roughly matching nominal GDP growth), they would reach just over $8 trillion by FY 2028.
+
+(d) The expectations of experts and markets, as represented by the CBO's February 2026 baseline, project federal outlays to remain around 23.3% of GDP in 2027 and 2028. Assuming a nominal GDP of around $34.5 trillion to $35 trillion in 2028, this yields baseline outlays of roughly $8.05 trillion to $8.15 trillion. Factoring in the CBO's anticipated $85 billion FDIC repayment (recorded as a negativ
+
+(e) A brief description of an unexpected scenario that results in a low outcome: The Department of Government Efficiency (DOGE), backed by a unified Congress, manages to bypass historical political gridlock and implements unprecedented, sweeping cuts to both discretionary and mandatory spending programs, shrinking outlays significantly despite inflation and demographic pressures.
+
+(f) A brief description of an unexpected scenario that results in a high outcome: A severe economic recession, a new global pandemic, or a major geopolitical conflict forces the federal government to pass massive emergency stimulus packages or drastically increase defense spending, causing outlays to spike well above baseline projections.
+
+Percentile 10: 7150000
+Percentile 20: 7500000
+Percentile 40: 7850000
+Percentile 60: 8100000
+Percentile 80: 8450000
+Percentile 90: 8850000
+
+
+-------------------------------------------------------------------------------------------
+
+
+URL: https://www.metaculus.com/questions/43325
+Errors: []
+<<<<<<<<<<<<<<<<<<<< Summary >>>>>>>>>>>>>>>>>>>>>
+# SUMMARY
+*Question*: Will the sitting U.S. president’s net worth reach ≥4x its value before they became president at any point in the following years? (2027-2028)
+*Final Prediction*: 20.0%
+*Total Cost*: $0.4591 (estimated)
+*Time Spent*: 1.2 minutes
+*LLMs*: `{'default': {'original_model': 'openrouter/google/gemini-3.1-pro-preview', 'allowed_tries': 2, 'reasoning_effort': 'high', 'max_tokens': 24000, 'model': 'openrouter/google/gemini-3.1-pro-preview', 'temperature': 0.3, 'timeout': 300}, 'summarizer': {'original_model': 'openrouter/anthropic/claude-haiku-5.5', 'allowed_tries': 2, 'max_tokens': 4000, 'model': 'openrouter/anthropic/claude-haiku
+*Bot Name*: PanelBot
+
+
+## Report 1 Summary
+### Forecasts
+*Forecaster 1*: 12.0%
+*Forecaster 2*: 28.0%
+*Forecaster 3*: 12.0%
+*Forecaster 4*: 28.0%
+
+
+### Research Summary
+The research identifies Donald Trump as the relevant sitting president for 2027–2028, since his second, non-consecutive term began in January 2025. Forbes estimated his net worth at about $4.3 billion in 2024, the year before he returned to office, which sets the 4x threshold at roughly $17.2 billion. Forbes later estimated his net worth at $7.3 billion in September 2025, $7 billion in September 2
+
+The research states that his highest reported value in the available period, about $7.3 billion, was less than half the threshold, and it concludes that the subquestion would currently resolve No based on information through November 17, 2026. It notes this is not necessarily final through the end of 2028, since Trump would need an increase of roughly $10 billion from the latest Forbes estimate to
+
+**Sources used:**
+- https://finance.yahoo.com/markets/crypto/articles/trump-says-shouldve-had-stock-210816507.html
+- https://www.forbes.com/sites/danalexander/article/the-definitive-networth-of-donaldtrump/
+- https://www.forbes.com/profile/donald-trump/
+
+
+
+<<<<<<<<<<<<<<<<<<<< First Rationale >>>>>>>>>>>>>>>>>>>>>
+## R1: Forecaster 1 Reasoning
+*Forecaster model*: openrouter/google/gemini-3.1-pro-preview
+
+(a) The time left until the outcome to the question is known is approximately 25.5 months, covering the entirety of the years 2027 and 2028.
+
+(b) The status quo outcome if nothing changed is No. Donald Trump's net worth is currently estimated at $6.3 billion, which falls short of the required threshold. 
+
+(c) A brief description of a scenario that results in a No outcome: Trump's net worth remains relatively stable or continues to slowly decline. Without the catalyst of an upcoming election, Trump Media & Technology Group (DJT) stock languishes or bleeds out during his lame-duck years, and his overall net worth never reaches the $10.4 billion threshold (4x the earliest 2024 archived baseline of $2.
+
+(d) A brief description of a scenario that results in a Yes outcome: DJT stock experiences a sudden, massive meme-stock short squeeze, or Trump successfully launches and monetizes a highly valued new venture (such as a crypto token). This temporarily pumps his Forbes real-time net worth above $10.4 billion for long enough to be captured by the Internet Archive's Wayback Machine before correcting.
+
+Probability: 12%
+
+
+-------------------------------------------------------------------------------------------
+
+Bot: PanelBot
+✅ URL: https://www.metaculus.com/questions/43327 | Minor Errors: 0
+✅ URL: https://www.metaculus.com/questions/43324 | Minor Errors: 0
+✅ URL: https://www.metaculus.com/questions/45517 | Minor Errors: 0
+✅ URL: https://www.metaculus.com/questions/46223 | Minor Errors: 0
+✅ URL: https://www.metaculus.com/questions/46224 | Minor Errors: 0
+✅ URL: https://www.metaculus.com/questions/43325 | Minor Errors: 0
+
+Stats for passing reports:
+Total cost estimated: $1.81194
+Average cost per question: $0.30199
+Average time spent per question: 0.7805 minutes
+Note: LLM costs are calculated via litellm, and models or search tools not supported by litellm will not be tracked. See what is supported here: https://models.litellm.ai/. 
+----------------------------------------------------------------------------------------------------
+
+
+
+Plan: go=True (ok); balance=5.0 [funded]; test: 4 forecasts/question; up to 6 questions; run cap $5.00
+🤖  Running mode=test_questions, publish=yes
+
+Questions on test: {'open_seen': 10, 'already_forecast': 0, 'closed': 0, 'past_spot': 0, 'selected': 6, 'deferred': 4}
+Forecasting 6 question(s) on test, 1 at a time
+
+================================================================================
+🎉  Bot submitted 6 forecast(s).
+
+  ✅ https://www.metaculus.com/questions/43327
+  ✅ https://www.metaculus.com/questions/43324
+  ✅ https://www.metaculus.com/questions/45517
+  ✅ https://www.metaculus.com/questions/46223
+  ✅ https://www.metaculus.com/questions/46224
+  ✅ https://www.metaculus.com/questions/43325
+================================================================================
+
