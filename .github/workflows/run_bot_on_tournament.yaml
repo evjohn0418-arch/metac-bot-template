@@ -3,42 +3,54 @@ name: Forecast on new AI tournament questions
 on:
   workflow_dispatch:
   schedule:
-    - cron: "7,27,47 * * * *" # every 20 min, offset off the hour. Make sure to skip already-forecasted questions!
+    - cron: "7,27,47 * * * *" # every 20 minutes, offset off the hour
 
-# Add concurrency group to prevent parallel runs
+# One run at a time; a run that is still going makes the next one wait.
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: false
 
+permissions:
+  contents: write # the run appends its record to records/runs.jsonl
 
-# Daily job to run the simple forecast bot
 jobs:
   forecast_job:
-    runs-on: ubuntu-latest # determines the machine that will run the job - keep as is
-    steps: # sets up the steps that will be run in order
-      # setup repository with all necessary dependencies - keep as is
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      # The live switch is config/bot_config.json "live". Until it is true this job does nothing
+      # and costs nothing, whatever secrets are set.
+      - name: Check the live switch
+        id: live
+        run: |
+          if python3 -c "import json,sys; sys.exit(0 if json.load(open('config/bot_config.json')).get('live') is True else 1)"; then
+            echo "live=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "live=false" >> "$GITHUB_OUTPUT"
+            echo "Bot is not live (config/bot_config.json has live=false). Nothing to do."
+          fi
       - uses: actions/setup-python@v5
+        if: steps.live.outputs.live == 'true'
         with:
           python-version: "3.11"
       - name: Install uv
+        if: steps.live.outputs.live == 'true'
         uses: astral-sh/setup-uv@v10.3.0
         with:
           version: "0.13.1"
       - name: Install dependencies
+        if: steps.live.outputs.live == 'true'
         run: uv sync --locked
       - name: Run bot
-        run: |
-          uv run python main.py
-        # this reads the environment variables from the github repository.
-        # Store under Settings --> Secrets and variables --> Actions
+        if: steps.live.outputs.live == 'true'
+        run: uv run python agent_bot.py --mode tournament
         env:
-          METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }} # replace this with the name of the variable under which you stored your own Metaculus token
-          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
-          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ASKNEWS_CLIENT_ID: ${{ secrets.ASKNEWS_CLIENT_ID }}
           ASKNEWS_SECRET: ${{ secrets.ASKNEWS_SECRET }}
+      - name: Save the run record
+        if: always() && steps.live.outputs.live == 'true'
+        run: bash .github/save_records.sh "Run record"

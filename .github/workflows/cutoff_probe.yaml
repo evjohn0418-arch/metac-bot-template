@@ -1,0 +1,34 @@
+name: Check the spending cutoff
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["config/run_probe.txt"] # a commit that changes this file starts the check
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write # the result is saved to records/probes.jsonl
+
+# Sends one request that asks for more than the credits left could pay for, and records
+# whether OpenRouter refused it. Makes no forecasts and publishes nothing.
+jobs:
+  probe_job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run the check
+        run: python -m agent.probe
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      - name: Save the result
+        if: always()
+        run: bash .github/save_records.sh "Cutoff check"

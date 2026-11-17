@@ -2,19 +2,24 @@ name: Test Bot
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["config/run_test.txt"] # a commit that changes this file starts a test run
 
-# Add concurrency group to prevent parallel runs
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: false
 
+permissions:
+  contents: write # the run appends its record to records/runs.jsonl
 
-# Daily job to run the simple forecast bot
+# Forecasts on a handful of questions in Metaculus's bot-testing-area. Nothing here counts
+# toward a prize. Use it to prove the tokens, the models and the spend plan before going live.
 jobs:
   forecast_job:
-    runs-on: ubuntu-latest # determines the machine that will run the job - keep as is
-    steps: # sets up the steps that will be run in order
-      # setup repository with all necessary dependencies - keep as is
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
       - name: Check out repository
         uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -26,17 +31,13 @@ jobs:
           version: "0.13.1"
       - name: Install dependencies
         run: uv sync --locked
-      - name: Run bot
-        run: |
-          uv run python main.py --mode test_questions
-        # this reads the environment variables from the github repository.
-        # Store under Settings --> Secrets and variables --> Actions
+      - name: Run bot on test questions
+        run: uv run python agent_bot.py --mode test_questions
         env:
-          METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }} # replace this with the name of the variable under which you stored your own Metaculus token
-          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
-          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ASKNEWS_CLIENT_ID: ${{ secrets.ASKNEWS_CLIENT_ID }}
           ASKNEWS_SECRET: ${{ secrets.ASKNEWS_SECRET }}
+      - name: Save the run record
+        if: always()
+        run: bash .github/save_records.sh "Test run record"

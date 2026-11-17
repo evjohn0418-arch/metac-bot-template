@@ -2,53 +2,67 @@ name: Review recent forecasts
 
 on:
   workflow_dispatch:
-    inputs:
-      days:
-        description: "How many days back to look for resolved questions"
-        default: "30"
   schedule:
-    - cron: "0 6 * * 1" # weekly, Monday morning
+    - cron: "0 6 * * 1,4" # Monday and Thursday morning (UTC)
+  push:
+    branches: [main]
+    paths: ["config/run_review.txt"] # a commit that changes this file starts a review
 
-# Add concurrency group to prevent parallel runs
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: false
 
-# Scores how the bot's resolved forecasts turned out. Read-only: it makes no
-# forecasts, spends nothing on LLMs, and publishes nothing.
-# The weekly run is off by default: set the repository variable REVIEW_BOT_ENABLED to
-# true to turn it on. Running it by hand always works.
+permissions:
+  contents: write # the review is saved under records/
+
+# Scores how the bot's resolved forecasts turned out and reads its leaderboard standing.
+# Read-only on Metaculus: it makes no forecasts, spends nothing on models and publishes nothing.
+# It never opens or changes a forecast on a question that is still open.
 jobs:
   review_job:
-    if: vars.REVIEW_BOT_ENABLED == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      - name: Check the live switch
+        id: live
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ] || python3 -c "import json,sys; sys.exit(0 if json.load(open('config/bot_config.json')).get('live') is True else 1)"; then
+            echo "live=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "live=false" >> "$GITHUB_OUTPUT"
+            echo "Bot is not live. Nothing to review."
+          fi
       - uses: actions/setup-python@v5
+        if: steps.live.outputs.live == 'true'
         with:
           python-version: "3.11"
       - name: Install uv
+        if: steps.live.outputs.live == 'true'
         uses: astral-sh/setup-uv@v10.3.0
         with:
           version: "0.13.1"
       - name: Install dependencies
+        if: steps.live.outputs.live == 'true'
         run: uv sync --locked --group integrations
       - name: Review forecasts
+        if: steps.live.outputs.live == 'true'
         run: |
-          uv run bot-review review \
-            --resolved-since ${{ inputs.days || 30 }} \
-            --output review.json \
-            --summary review.md
+          mkdir -p records/reviews
+          STAMP=$(date -u +%Y-%m-%d)
+          MAIN=$(uv run python -c "from forecasting_tools import MetaculusClient; print(MetaculusClient.CURRENT_AI_COMPETITION_ID)")
+          MINI=$(uv run python -c "from forecasting_tools import MetaculusClient; print(MetaculusClient.CURRENT_MINIBENCH_ID)")
+          uv run bot-review review --tournament "$MAIN" --output records/reviews/main-latest.json --summary records/reviews/main-latest.md || echo "main review failed"
+          uv run bot-review review --tournament "$MINI" --output records/reviews/minibench-latest.json --summary records/reviews/minibench-latest.md || echo "minibench review failed"
+          for name in main minibench; do
+            if [ -f "records/reviews/$name-latest.md" ]; then
+              cp "records/reviews/$name-latest.md" "records/reviews/$STAMP-$name.md"
+              cat "records/reviews/$name-latest.md" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
         env:
           METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
-      - name: Show the summary in the run page
-        run: cat review.md >> $GITHUB_STEP_SUMMARY
-      - name: Keep the review
-        uses: actions/upload-artifact@v4
-        with:
-          name: review
-          path: |
-            review.json
-            review.md
-          retention-days: 90
+      - name: Save the review
+        if: always() && steps.live.outputs.live == 'true'
+        run: bash .github/save_records.sh "Forecast review"
