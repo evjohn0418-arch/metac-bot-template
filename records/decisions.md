@@ -2,6 +2,15 @@
 
 Newest first. Each entry: date, what changed, the evidence, who decided.
 
+## 2026-11-17: live test passed, bot switched live (agent)
+
+- Test Bot run 1: 6 of 6 test questions forecast and submitted, 24 forecasts (12 per model),
+  no errors. OpenRouter's own usage rose $0.7648, about $0.13 a question with 4 forecasts,
+  against the $0.36 estimate. The framework's own tally said $1.81; OpenRouter's figure is the
+  one that counts.
+- Switched `live` to true. The remaining ~$4.24 now goes to real tournament questions until
+  OpenRouter refuses a call, which is the cutoff test. Floor stays $0 for stage one.
+
 ## 2026-11-17: stage one funded, live test started (agent)
 
 - Both secrets are in the fork and Actions are on. `funded_usd` set to 5.0 for the $5 stage-one

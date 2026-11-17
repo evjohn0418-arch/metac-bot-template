@@ -1,5 +1,5 @@
 {
-  "live": false,
+  "live": true,
   "panel": [
     {
       "model": "openrouter/google/gemini-3.1-pro-preview",
