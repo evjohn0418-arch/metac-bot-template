@@ -2,6 +2,17 @@
 
 Newest first. Each entry: date, what changed, the evidence, who decided.
 
+## 2026-11-17: first live day, cost measurement, cutoff check (agent)
+
+- Six live tournament runs by 18:02 UTC: 11 questions forecast (2 main, 9 MiniBench), none failed.
+- OpenRouter posts part of each run's charges after the run ends, so a run's own
+  `provider_cost_usd` understates it. Real costs are taken from the key's cumulative usage
+  (`usage_before` of the next run): the test cost $0.906 for 6 questions at 4 forecasts
+  (~$0.15 each); live questions so far ~$0.094 each at 2 forecasts. The spend plan's cost ratio
+  uses the larger of tracked and provider figures, so it errs toward caution.
+- Balance is about $3.06, under the $3.56 ceiling for the free cutoff check, so the check was
+  started by changing `config/run_probe.txt`.
+
 ## 2026-11-17: live test passed, bot switched live (agent)
 
 - Test Bot run 1: 6 of 6 test questions forecast and submitted, 24 forecasts (12 per model),
