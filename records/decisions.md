@@ -2,6 +2,13 @@
 
 Newest first. Each entry: date, what changed, the evidence, who decided.
 
+## 2026-11-17: stage one funded, live test started (agent)
+
+- Both secrets are in the fork and Actions are on. `funded_usd` set to 5.0 for the $5 stage-one
+  purchase; the bot reads its balance as $5 minus the key's usage. If the purchase has not gone
+  through, OpenRouter refuses the calls and nothing is spent.
+- Started Test Bot on Metaculus's test questions. `live` stays false until the test passes.
+
 ## 2026-11-16: credits bought in stages (owner instruction, agent design)
 
 - The owner asked for the smallest purchase that covers the live test first. OpenRouter's

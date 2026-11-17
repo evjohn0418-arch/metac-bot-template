@@ -69,15 +69,16 @@ def test_shipped_config_starts_unfunded_and_caps_every_model():
     raw = json.loads((REPO_ROOT / "config" / "bot_config.json").read_text())
     cfg = guard.parse_config(raw)
     assert cfg.live is False
-    assert cfg.funded_usd == 0.0  # nothing can run until a purchase is recorded here
+    assert cfg.funded_usd is not None and 0 <= cfg.funded_usd <= 105.5  # never above the approved cash
     for member in cfg.panel:
         assert member.settings["max_tokens"] > 0
         assert member.worst_case_cost_per_call >= member.est_cost_per_forecast
     for spec in (cfg.parser, cfg.summarizer, cfg.researcher_fallback):
         assert isinstance(spec, dict) and spec["max_tokens"] > 0
     # an unfunded bot never forecasts, whatever the key's own limit says
-    assert guard.plan_run(cfg_from(raw, live=True), 0.0, NOW, "tournament").go is False
-    assert guard.plan_run(cfg, 0.0, NOW, "test_questions").go is False
+    unfunded = with_budget(raw, funded_usd=0.0)
+    assert guard.plan_run(cfg_from(unfunded, live=True), 0.0, NOW, "tournament").go is False
+    assert guard.plan_run(guard.parse_config(unfunded), 0.0, NOW, "test_questions").go is False
 
 
 def test_shipped_worst_cases_match_list_prices():
