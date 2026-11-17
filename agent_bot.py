@@ -41,6 +41,7 @@ DEFAULT_CONFIG = REPO_ROOT / "config" / "bot_config.json"
 DEFAULT_RECORDS = REPO_ROOT / "records" / "runs.jsonl"
 TEST_TOURNAMENT = "bot-testing-area"
 _PLACEHOLDERS = {"", "REPLACE_ME", "1234567890", "your-token-here", "your-api-key-here"}
+SECRET_ENV_NAMES = ("METACULUS_TOKEN", "OPENROUTER_API_KEY", "ASKNEWS_CLIENT_ID", "ASKNEWS_SECRET")
 
 # Which panel model the current forecast task should use. A ContextVar keeps the choice
 # private to each concurrent task, so forecasts running side by side cannot swap models.
@@ -217,6 +218,7 @@ def run(argv: list[str] | None = None, now: datetime | None = None) -> int:
         record = guard.build_skip_record(now=now, mode=mode, reason=reason, balance=guard.Balance(None, "none"))
         return _finish_with_alarm(records_path, records, record, now)
 
+    secrets = [os.getenv(name) for name in SECRET_ENV_NAMES]  # never written to a record
     balance_before = guard.fetch_openrouter_balance(openrouter_key, funded_usd=cfg.funded_usd)
     plan = guard.plan_run(cfg, balance_before.remaining, now, mode, records)
     summary = ", ".join(f"{t.name}: {t.predictions} forecasts/question" for t in plan.tracks) or "no tracks"
@@ -305,7 +307,10 @@ def run(argv: list[str] | None = None, now: datetime | None = None) -> int:
         track_results=track_results,
         tracked_cost_usd=tracked_cost,
         models=[member.model for member in cfg.panel],
-        errors=fetch_errors + [f"{type(f).__name__}: {f}" for f in failures] + partial_errors,
+        errors=[
+            guard.scrub(e, secrets)
+            for e in fetch_errors + [f"{type(f).__name__}: {f}" for f in failures] + partial_errors
+        ],
         published=publish,
         run_url=_run_url(),
     )

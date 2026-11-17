@@ -357,3 +357,38 @@ def test_probe_command_writes_one_record(tmp_path, monkeypatch, capsys):
     (record,) = guard.read_records(records)
     assert record["kind"] == "probe" and record["outcome"] == "not_run"
     assert "not_run" in capsys.readouterr().out
+
+
+# ----------------------------------------------------------------------- nothing secret reaches the public records
+
+
+def test_scrub_removes_secret_values_and_leaves_the_rest():
+    text = "401 for key sk-or-v1-abcdef123456 at https://openrouter.ai (token mtk_998877)"
+    cleaned = guard.scrub(text, ["sk-or-v1-abcdef123456", "mtk_998877", None, "", "abc"])
+    assert cleaned == "401 for key [hidden] at https://openrouter.ai (token [hidden])"
+    assert guard.scrub(RuntimeError("plain error"), ["sk-or-v1-abcdef123456"]) == "plain error"
+
+
+def test_saved_log_is_short_and_has_no_secret_values(tmp_path, monkeypatch):
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("save_log", REPO_ROOT / ".github" / "save_log.py")
+    save_log = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(save_log)
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "sk-or-v1-abcdef123456")
+    monkeypatch.setenv("METACULUS_TOKEN", "mtk_998877")
+    for name in ("ASKNEWS_CLIENT_ID", "ASKNEWS_SECRET", "GITHUB_SERVER_URL", "GITHUB_REPOSITORY", "GITHUB_RUN_ID"):
+        monkeypatch.delenv(name, raising=False)
+    lines = [f"line {i}" for i in range(400)] + ["Authorization: Bearer sk-or-v1-abcdef123456", "token mtk_998877 " + "x" * 900]
+    (tmp_path / "run.log").write_text("\n".join(lines))
+    monkeypatch.setattr("sys.argv", ["save_log.py", "test", "install=success run=failure"])
+    assert save_log.main() == 0
+    saved = (tmp_path / "records" / "logs" / "test-latest.txt").read_text()
+    assert "sk-or-v1-abcdef123456" not in saved and "mtk_998877" not in saved and "[hidden]" in saved
+    assert "steps: install=success run=failure" in saved and "lines kept: 150 of 402" in saved
+    assert max(len(line) for line in saved.splitlines()) <= 400
+    # no log file at all (the job died before the bot started) still leaves a note
+    (tmp_path / "run.log").unlink()
+    assert save_log.main() == 0
+    assert "lines kept: 0 of 0" in (tmp_path / "records" / "logs" / "test-latest.txt").read_text()

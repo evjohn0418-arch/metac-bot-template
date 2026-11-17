@@ -639,6 +639,15 @@ def fetch_openrouter_balance(
 # --------------------------------------------------------------------------- records
 
 
+def scrub(text: Any, secrets: Iterable[str | None]) -> str:
+    """Remove secret values from text before it is saved. The records live in a public repository."""
+    cleaned = str(text)
+    for secret in secrets:
+        if secret and len(secret) >= 6:
+            cleaned = cleaned.replace(secret, "[hidden]")
+    return cleaned
+
+
 def read_records(path: str | Path) -> list[dict]:
     """Read the run ledger. Lines that are not valid JSON are skipped, not fatal."""
     file = Path(path)

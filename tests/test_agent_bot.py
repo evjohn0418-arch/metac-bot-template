@@ -513,3 +513,12 @@ def test_models_given_with_settings_are_built_with_them_and_names_stay_names(bas
     assert bot.get_llm("parser", "llm").kwargs == {"max_tokens": 4000}
     assert bot.get_llm("summarizer") == "summary-model"
     assert bot._panel[0].kwargs == {"max_tokens": 24000}
+
+
+def test_secret_values_never_reach_the_run_record(env, workspace, balances):
+    leaky = RuntimeError("401 Unauthorized for Bearer sk-or-test while calling with metaculus-token")
+    GeneralLlm.behaviour = {"model-a": leaky, "model-b": leaky}
+    MetaculusClient.questions = {MAIN: [Question(1)]}
+    workspace.run()
+    text = json.dumps(workspace.records())
+    assert "sk-or-test" not in text and "metaculus-token" not in text and "[hidden]" in text

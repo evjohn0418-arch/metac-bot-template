@@ -30,9 +30,24 @@ jobs:
         with:
           version: "0.13.1"
       - name: Install dependencies
-        run: uv sync --locked
+        id: install
+        run: |
+          set -o pipefail
+          uv sync --locked 2>&1 | tee run.log
       - name: Run bot on test questions
-        run: uv run python agent_bot.py --mode test_questions
+        id: run
+        run: |
+          set -o pipefail
+          uv run python agent_bot.py --mode test_questions 2>&1 | tee -a run.log
+        env:
+          METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          ASKNEWS_CLIENT_ID: ${{ secrets.ASKNEWS_CLIENT_ID }}
+          ASKNEWS_SECRET: ${{ secrets.ASKNEWS_SECRET }}
+      # The tail of the output, with secret values removed, is kept with the records.
+      - name: Save a short log
+        if: always()
+        run: python3 .github/save_log.py test "install=${{ steps.install.outcome }} run=${{ steps.run.outcome }}"
         env:
           METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}

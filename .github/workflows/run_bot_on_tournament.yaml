@@ -41,11 +41,26 @@ jobs:
         with:
           version: "0.13.1"
       - name: Install dependencies
+        id: install
         if: steps.live.outputs.live == 'true'
-        run: uv sync --locked
+        run: |
+          set -o pipefail
+          uv sync --locked 2>&1 | tee run.log
       - name: Run bot
+        id: run
         if: steps.live.outputs.live == 'true'
-        run: uv run python agent_bot.py --mode tournament
+        run: |
+          set -o pipefail
+          uv run python agent_bot.py --mode tournament 2>&1 | tee -a run.log
+        env:
+          METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          ASKNEWS_CLIENT_ID: ${{ secrets.ASKNEWS_CLIENT_ID }}
+          ASKNEWS_SECRET: ${{ secrets.ASKNEWS_SECRET }}
+      # Only when the job fails: the tail of the output, with secret values removed.
+      - name: Save a short log
+        if: failure() && steps.live.outputs.live == 'true'
+        run: python3 .github/save_log.py tournament "install=${{ steps.install.outcome }} run=${{ steps.run.outcome }}"
         env:
           METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
