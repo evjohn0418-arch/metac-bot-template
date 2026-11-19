@@ -2,6 +2,15 @@
 
 Newest first. Each entry: date, what changed, the evidence, who decided.
 
+## 2026-11-18: stage two funded (owner purchase, agent config)
+
+- The owner bought the stage-two credits on Nov 18 (asked for $45; about $47.48 with the 5.5% fee).
+  `funded_usd` raised to 50.0 (5 + 45) and `credit_floor_usd` back to 2.0.
+- Stage one was not run down to zero: the cutoff check had already shown OpenRouter refusing a
+  request the credits could not cover, and draining would have cost missed questions.
+- Proof the new credits exist comes when the key's usage passes $5 with no refusals.
+- Total E3 cash is now about $53.28, under the approved $105.50.
+
 ## 2026-11-17: first live day, cost measurement, cutoff check (agent)
 
 - Six live tournament runs by 18:02 UTC: 11 questions forecast (2 main, 9 MiniBench), none failed.

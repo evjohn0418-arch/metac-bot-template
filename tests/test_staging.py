@@ -272,6 +272,8 @@ def test_stage_one_five_dollars_covers_the_test_then_drains_on_real_questions():
     forecast count, and planning stops by itself when less than one question's cost is left."""
     raw = json.loads((REPO_ROOT / "config" / "bot_config.json").read_text())
     raw["budget"]["funded_usd"] = 5.0
+    raw["budget"]["credit_floor_usd"] = 0.0  # stage one ran with no floor
+    raw["live"] = False
     cfg = guard.parse_config(raw)
 
     test_plan = guard.plan_run(cfg, 5.0, NOW, "test_questions")

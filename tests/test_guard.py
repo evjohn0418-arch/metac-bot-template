@@ -32,7 +32,7 @@ def test_shipped_config_is_valid_and_not_live():
     assert [t.name for t in cfg.tracks] == ["main", "minibench"]
     assert [t.predictions_per_question for t in cfg.tracks] == [4, 2]
     assert len(cfg.panel) == 2
-    assert cfg.credit_floor_usd == 0.0  # stage one runs the first small purchase down to nothing
+    assert cfg.credit_floor_usd == 2.0  # restored for stage two
 
 
 def test_shipped_config_costs_match_the_proposal():

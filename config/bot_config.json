@@ -42,8 +42,8 @@
   "est_overhead_per_question": 0.04,
   "worst_case_overhead_per_question": 0.15,
   "budget": {
-    "funded_usd": 5.0,
-    "credit_floor_usd": 0.0,
+    "funded_usd": 50.0,
+    "credit_floor_usd": 2.0,
     "inflight_share": 0.5,
     "max_questions_per_run": 15,
     "max_cost_per_run_usd": 10.0,
