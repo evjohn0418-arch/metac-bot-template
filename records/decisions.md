@@ -2,6 +2,17 @@
 
 Newest first. Each entry: date, what changed, the evidence, who decided.
 
+## 2026-11-19: cost measurement fixed (agent)
+
+- With $47 of credits the plan still cut main-tournament questions to 2 forecasts. Cause: the
+  cost ratio took the framework's own tally as a floor, and that tally runs 2 to 3 times the real
+  charge. The ratio now uses the rise in the key's usage between consecutive runs, which counts
+  late charges, and leaves out the newest run until its costs are final.
+- On the real records the ratio is about 0.46, so the plan goes back to 4 main and 2 MiniBench
+  forecasts. Expected remaining spend at that rate: about $32 of the $45 above the floor.
+- First reviews (Nov 19): 7 main and 14 MiniBench questions forecast, none resolved yet, no
+  leaderboard entry yet.
+
 ## 2026-11-18: stage two funded (owner purchase, agent config)
 
 - The owner bought the stage-two credits on Nov 18 (asked for $45; about $47.48 with the 5.5% fee).

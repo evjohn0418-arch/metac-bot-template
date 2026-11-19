@@ -395,3 +395,46 @@ def test_saved_log_is_short_and_has_no_secret_values(tmp_path, monkeypatch):
     (tmp_path / "run.log").unlink()
     assert save_log.main() == 0
     assert "lines kept: 0 of 0" in (tmp_path / "records" / "logs" / "test-latest.txt").read_text()
+
+
+# ----------------------------------------------------------------------- cost ratio from the key's cumulative usage
+
+
+def usage_run(attempted, est_total, usage_before, tracked=None, provider=None):
+    return {"kind": "run", "questions_attempted": attempted, "raw_est_total_usd": est_total,
+            "usage_before": usage_before, "tracked_cost_usd": tracked, "provider_cost_usd": provider}
+
+
+def test_cost_ratio_uses_usage_up_to_the_next_run_so_late_charges_count():
+    # each run's own provider figure misses its late charges; the framework's tally is far too high
+    runs = [
+        usage_run(6, 2.0, 0.00, tracked=1.80, provider=0.70),
+        usage_run(4, 1.0, 0.90, tracked=0.80, provider=0.28),
+        usage_run(2, 0.5, 1.30, tracked=0.40, provider=0.10),
+    ]
+    # final costs: 0.90 and 0.40 against estimates 2.0 and 1.0; the last run is not final yet
+    assert guard.observed_cost_ratio(runs) == pytest.approx(1.30 / 3.0)
+
+
+def test_cost_ratio_waits_until_enough_runs_have_final_costs():
+    runs = [usage_run(3, 1.0, 0.0), usage_run(3, 1.0, 0.4)]  # only the first is final: 3 questions
+    assert guard.observed_cost_ratio(runs) is None
+    runs.append(usage_run(3, 1.0, 0.9))
+    assert guard.observed_cost_ratio(runs) == pytest.approx(0.9 / 2.0)
+
+
+def test_cost_ratio_falls_back_when_usage_readings_are_missing_or_go_backwards():
+    # a new key restarts usage at zero: that pair is skipped, and with no final pair the old rule applies
+    runs = [usage_run(10, 2.0, 5.0, tracked=3.0, provider=2.5), usage_run(10, 2.0, 0.0, tracked=3.0, provider=2.5)]
+    assert guard.observed_cost_ratio(runs) == pytest.approx(1.5)
+    legacy = [{"kind": "run", "questions_attempted": 10, "raw_est_total_usd": 2.0, "tracked_cost_usd": 3.0}]
+    assert guard.observed_cost_ratio(legacy) == pytest.approx(1.5)
+
+
+def test_measured_costs_let_the_full_forecast_counts_run_on_the_stage_two_balance():
+    """Nov 19: $47 left. At the measured ratio (~0.46) the plan keeps 4 main and 2 MiniBench forecasts;
+    at the old, inflated ratio it trimmed main to 2."""
+    cfg = guard.load_config(REPO_ROOT / "config" / "bot_config.json")
+    today = datetime(2026, 11, 19, tzinfo=timezone.utc).date()
+    assert guard.planned_predictions(cfg, 47.09, today, 0.46) == {"main": 4, "minibench": 2}
+    assert guard.planned_predictions(cfg, 47.09, today, 0.91)["main"] < 4

@@ -279,14 +279,34 @@ def parallel_questions(cfg: Config, balance: float | None, predictions: int, cap
     return max(1, min(cap, int((balance * cfg.inflight_share) // worst)))
 
 
+def _usage(record: dict) -> float | None:
+    value = record.get("usage_before")
+    return None if isinstance(value, bool) or not isinstance(value, (int, float)) else float(value)
+
+
 def observed_cost_ratio(records: Sequence[dict], min_questions: int = 5, window: int = 60) -> float | None:
     """Actual cost divided by estimated cost over recent runs, or None until there is enough data.
 
-    Uses the provider's own figures where they exist (the rise in the key's usage, else the fall
-    in the balance), and never less than what the framework tracked, so a late-posting charge
-    cannot make the bot look cheaper than it is.
+    OpenRouter posts part of a run's charges after the run ends. So where the key's usage was read
+    before consecutive runs, a run's real cost is the rise in usage up to the start of the next run,
+    which takes in its late charges; the latest such run is left out until its costs are final.
+    Runs without those readings fall back to the provider's figure for the run itself (or the fall
+    in the balance), never less than what the framework tracked.
     """
     runs = [r for r in records if r.get("kind") == "run" and (r.get("questions_attempted") or 0) > 0][-window:]
+    final: list[tuple[dict, float]] = []
+    for this, nxt in zip(runs, runs[1:]):
+        a, b = _usage(this), _usage(nxt)
+        if a is not None and b is not None and b >= a:
+            final.append((this, b - a))
+    if final:
+        attempted = sum(r["questions_attempted"] for r, _ in final)
+        estimated = sum(r.get("raw_est_total_usd") or 0.0 for r, _ in final)
+        actual = sum(cost for _, cost in final)
+        if attempted < min_questions or estimated <= 0 or actual <= 0:
+            return None
+        return min(max(actual / estimated, 0.25), 4.0)
+
     if sum(r["questions_attempted"] for r in runs) < min_questions:
         return None
     estimated = sum(r.get("raw_est_total_usd") or 0.0 for r in runs)
