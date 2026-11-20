@@ -63,6 +63,11 @@ jobs:
           done
         env:
           METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
+      - name: Count coverage
+        if: steps.live.outputs.live == 'true'
+        run: uv run python -m agent.coverage || echo "coverage count failed"
+        env:
+          METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
       - name: Save the review
         if: always() && steps.live.outputs.live == 'true'
         run: bash .github/save_records.sh "Forecast review"

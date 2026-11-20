@@ -5,7 +5,7 @@ import copy
 import io
 import json
 import urllib.error
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
@@ -438,3 +438,29 @@ def test_measured_costs_let_the_full_forecast_counts_run_on_the_stage_two_balanc
     today = datetime(2026, 11, 19, tzinfo=timezone.utc).date()
     assert guard.planned_predictions(cfg, 47.09, today, 0.46) == {"main": 4, "minibench": 2}
     assert guard.planned_predictions(cfg, 47.09, today, 0.91)["main"] < 4
+
+
+# ----------------------------------------------------------------------- coverage
+
+
+def test_coverage_counts_forecast_missed_and_open_questions():
+    from types import SimpleNamespace as Q
+    from agent import coverage
+
+    start = coverage.BOT_START
+    day = timedelta(days=1)
+    questions = [
+        Q(id_of_question=1, state="resolved", already_forecasted=True, open_time=start, close_time=start + day, page_url="u1"),
+        Q(id_of_question=2, state="closed", already_forecasted=False, open_time=start - 2 * day, close_time=start - day, page_url="u2"),
+        Q(id_of_question=3, state="closed", already_forecasted=False, open_time=start + day, close_time=start + 2 * day, page_url="u3"),
+        Q(id_of_question=4, state="open", already_forecasted=False, open_time=start + day, close_time=start + 5 * day, page_url="u4"),
+        Q(id_of_question=5, state="open", already_forecasted=True, open_time=start, close_time=start + 5 * day, page_url="u5"),
+        Q(id_of_question=5, state="open", already_forecasted=True, open_time=start, close_time=start + 5 * day, page_url="u5"),
+    ]
+    s = coverage.summarize(questions)
+    assert (s["questions"], s["forecast"], s["coverage_pct"]) == (5, 2, 40.0)
+    assert s["missed_before_bot_started"] == 1 and s["missed_after_bot_started"] == 1 and s["open_not_yet_forecast"] == 1
+    assert s["missed_examples"][0]["url"] == "u3"
+    assert s["by_status"]["closed"] == {"questions": 2, "forecast": 0}
+    text = coverage.to_markdown({"minibench": s, "main": {"error": "boom"}}, "now")
+    assert "Forecast by the bot: 2 (40.0%)" in text and "could not list questions: boom" in text
