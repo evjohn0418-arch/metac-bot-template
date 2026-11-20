@@ -1,6 +1,6 @@
 # Review: Fall 2026 FutureEval Bot Tournament
 
-user 313105 — generated 2026-11-19T07:09:05.457433+00:00
+user 313105 — generated 2026-11-20T18:51:14.916754+00:00
 
 ## Overall
 
@@ -8,15 +8,15 @@ user 313105 — generated 2026-11-19T07:09:05.457433+00:00
 
 ## Participation
 
-- Questions: 7
-- Forecasted: 7
+- Questions: 12
+- Forecasted: 12
 - Scored: 0
-- Forecasted but unscored: 7 (0 resolved without a score)
-- Traced: 7 (0 ran only after spot scoring time)
+- Forecasted but unscored: 12 (0 resolved without a score)
+- Traced: 12 (0 ran only after spot scoring time)
 
 ### By tournament
 
-- Fall 2026 FutureEval Bot Tournament: 7 questions (0 scored)
+- Fall 2026 FutureEval Bot Tournament: 12 questions (0 scored)
 
 ## Best 0 (by spot peer score)
 

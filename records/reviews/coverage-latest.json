@@ -1,0 +1,39 @@
+{
+  "generated": "2026-11-20T18:52:32+00:00",
+  "main": {
+    "tournament": "33121",
+    "questions": 168,
+    "forecast": 12,
+    "by_status": {
+      "closed": {
+        "questions": 129,
+        "forecast": 12
+      },
+      "resolved": {
+        "questions": 39,
+        "forecast": 0
+      }
+    },
+    "missed_before_bot_started": 156,
+    "missed_after_bot_started": 0,
+    "open_not_yet_forecast": 0,
+    "missed_examples": [],
+    "coverage_pct": 7.1
+  },
+  "minibench": {
+    "tournament": "minibench",
+    "questions": 60,
+    "forecast": 14,
+    "by_status": {
+      "closed": {
+        "questions": 60,
+        "forecast": 14
+      }
+    },
+    "missed_before_bot_started": 46,
+    "missed_after_bot_started": 0,
+    "open_not_yet_forecast": 0,
+    "missed_examples": [],
+    "coverage_pct": 23.3
+  }
+}
