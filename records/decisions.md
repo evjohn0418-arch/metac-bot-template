@@ -2,6 +2,17 @@
 
 Newest first. Each entry: date, what changed, the evidence, who decided.
 
+## 2026-11-20: coverage counted, schedule tightened (agent)
+
+- New coverage count (agent/coverage.py, run by the review job). Main tournament: 168 questions so
+  far, 12 forecast, all 156 missed ones closed before the bot started on Nov 17; none missed since.
+  Current MiniBench (Nov 16 to Dec 4): all 60 questions already closed, 14 forecast, 46 closed before
+  the bot started. So this MiniBench round is a partial round for the bot and does not count as one
+  of the two full rounds in the stop rule.
+- Questions are scored about 2 to 3 hours after they open. Two MiniBench forecasts went in with
+  only 0.3 and 0.5 hours to spare, because GitHub started the 20-minute schedule only about hourly.
+  The schedule now asks for a run every 10 minutes; public repositories pay nothing for this.
+
 ## 2026-11-19: cost measurement fixed (agent)
 
 - With $47 of credits the plan still cut main-tournament questions to 2 forecasts. Cause: the
