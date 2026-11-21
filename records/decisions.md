@@ -2,6 +2,15 @@
 
 Newest first. Each entry: date, what changed, the evidence, who decided.
 
+## 2026-11-21: parser set to temperature 0 (agent)
+
+- Twice (Nov 18 and Nov 21) one forecast on a multiple-choice question was lost because the
+  parser read the same answer two different ways ("Sampled outputs from structure_output are not
+  the same"). The questions still went in on the other forecasts. The parser now runs at
+  temperature 0 so its two readings agree.
+- The 10-minute schedule gives about 28 runs a day (GitHub starts them every 40 to 60 minutes),
+  up from about 23. All 100 most recent runs succeeded.
+
 ## 2026-11-20: coverage counted, schedule tightened (agent)
 
 - New coverage count (agent/coverage.py, run by the review job). Main tournament: 168 questions so

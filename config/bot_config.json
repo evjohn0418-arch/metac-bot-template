@@ -37,7 +37,7 @@
     "prefer_asknews_when_keys_present": true,
     "fallback": {"model": "openrouter/perplexity/sonar-pro", "temperature": 0.1, "max_tokens": 4000}
   },
-  "parser": {"model": "openrouter/anthropic/claude-haiku-5.5", "max_tokens": 4000},
+  "parser": {"model": "openrouter/anthropic/claude-haiku-5.5", "max_tokens": 4000, "temperature": 0},
   "summarizer": {"model": "openrouter/anthropic/claude-haiku-5.5", "max_tokens": 4000},
   "est_overhead_per_question": 0.04,
   "worst_case_overhead_per_question": 0.15,
