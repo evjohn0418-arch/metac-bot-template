@@ -1,7 +1,229 @@
 {
-  "generated_at": "2026-11-20T18:51:14.916754Z",
+  "generated_at": "2026-11-23T07:28:52.211290Z",
   "user_id": 313105,
   "questions": [
+    {
+      "post_id": 46629,
+      "question_id": 46889,
+      "title": "Will any of these AI companies (Lovable, DeepSeek, or Perplexity) have a funding round in December 2026?",
+      "url": "https://www.metaculus.com/questions/46629/",
+      "question_type": "binary",
+      "status": "open",
+      "resolution": null,
+      "actual_resolve_time": null,
+      "spot_scoring_time": "2026-11-23T09:00:00Z",
+      "options": null,
+      "group_label": null,
+      "conditional_branch": null,
+      "forecasted": true,
+      "forecast": {
+        "probability_yes": 0.15000000000000002
+      },
+      "forecast_time": "2026-11-23T06:54:10.089611Z",
+      "scores": null,
+      "project_id": 33121,
+      "project_slug": "fall-futureeval-2026",
+      "project_name": "Fall 2026 FutureEval Bot Tournament",
+      "traces": [
+        {
+          "comment_id": 1354553,
+          "run_time": "2026-11-23T06:54:14.772472Z",
+          "question_text": "Will any of these AI companies (Lovable, DeepSeek, or Perplexity) have a funding round in December 2026?",
+          "forecasters": [
+            {
+              "key": "R1:F1",
+              "prediction": "14.0%"
+            },
+            {
+              "key": "R1:F2",
+              "prediction": "18.0%"
+            },
+            {
+              "key": "R1:F3",
+              "prediction": "12.0%"
+            },
+            {
+              "key": "R1:F4",
+              "prediction": "16.0%"
+            }
+          ],
+          "cost": 0.2103,
+          "minutes": 0.62,
+          "truncated": false
+        }
+      ]
+    },
+    {
+      "post_id": 46628,
+      "question_id": 46888,
+      "title": "What will be the total TSA checkpoint passenger volumes during December 2026?",
+      "url": "https://www.metaculus.com/questions/46628/",
+      "question_type": "numeric",
+      "status": "closed",
+      "resolution": null,
+      "actual_resolve_time": null,
+      "spot_scoring_time": "2026-11-23T03:00:00Z",
+      "options": null,
+      "group_label": null,
+      "conditional_branch": null,
+      "forecasted": true,
+      "forecast": {
+        "median": 77039729.56298697
+      },
+      "forecast_time": "2026-11-23T00:11:04.134244Z",
+      "scores": null,
+      "project_id": 33121,
+      "project_slug": "fall-futureeval-2026",
+      "project_name": "Fall 2026 FutureEval Bot Tournament",
+      "traces": [
+        {
+          "comment_id": 1353400,
+          "run_time": "2026-11-23T00:11:08.800858Z",
+          "question_text": "What will be the total TSA checkpoint passenger volumes during December 2026?",
+          "forecasters": [
+            {
+              "key": "R1:F1",
+              "prediction": "Probability distribution:\n- 10.00% chance of value below 67000000.0\n- 20.00% chance of value below 71000000.0\n- 40.00% chance of value below 74000000.0\n- 60.00% chance of value below 76000000.0\n- 80.00% chance of value below 78000000.0\n- 90.00% chance of value below 81000000.0"
+            },
+            {
+              "key": "R1:F2",
+              "prediction": "Probability distribution:\n- 10.00% chance of value below 71500000.0\n- 20.00% chance of value below 74000000.0\n- 40.00% chance of value below 76800000.0\n- 60.00% chance of value below 78700000.0\n- 80.00% chance of value below 81000000.0\n- 90.00% chance of value below 83000000.0"
+            },
+            {
+              "key": "R1:F3",
+              "prediction": "Probability distribution:\n- 10.00% chance of value below 71500000.0\n- 20.00% chance of value below 74000000.0\n- 40.00% chance of value below 76000000.0\n- 60.00% chance of value below 77500000.0\n- 80.00% chance of value below 79000000.0\n- 90.00% chance of value below 80500000.0"
+            },
+            {
+              "key": "R1:F4",
+              "prediction": "Probability distribution:\n- 10.00% chance of value below 72000000.0\n- 20.00% chance of value below 74000000.0\n- 40.00% chance of value below 76500000.0\n- 60.00% chance of value below 78500000.0\n- 80.00% chance of value below 81000000.0\n- 90.00% chance of value below 83000000.0"
+            }
+          ],
+          "cost": 0.2817,
+          "minutes": 0.71,
+          "truncated": false
+        }
+      ]
+    },
+    {
+      "post_id": 46627,
+      "question_id": 46887,
+      "title": "What will be the nationwide wastewater detection category of rotavirus on January 1, 2027?",
+      "url": "https://www.metaculus.com/questions/46627/",
+      "question_type": "multiple_choice",
+      "status": "closed",
+      "resolution": null,
+      "actual_resolve_time": null,
+      "spot_scoring_time": "2026-11-22T00:00:00Z",
+      "options": [
+        "High",
+        "Medium",
+        "Low",
+        "Other"
+      ],
+      "group_label": null,
+      "conditional_branch": null,
+      "forecasted": true,
+      "forecast": {
+        "probabilities": {
+          "High": 0.35500000000000004,
+          "Medium": 0.49,
+          "Low": 0.12250000000000001,
+          "Other": 0.0325
+        }
+      },
+      "forecast_time": "2026-11-21T21:01:28.467347Z",
+      "scores": null,
+      "project_id": 33121,
+      "project_slug": "fall-futureeval-2026",
+      "project_name": "Fall 2026 FutureEval Bot Tournament",
+      "traces": [
+        {
+          "comment_id": 1350039,
+          "run_time": "2026-11-21T21:01:32.660457Z",
+          "question_text": "What will be the nationwide wastewater detection category of rotavirus on January 1, 2027?",
+          "forecasters": [
+            {
+              "key": "R1:F1",
+              "prediction": "- High: 42.0%\n- Medium: 48.0%\n- Low: 8.0%\n- Other: 2.0%"
+            },
+            {
+              "key": "R1:F2",
+              "prediction": "- High: 28.0%\n- Medium: 55.0%\n- Low: 13.0%\n- Other: 4.0%"
+            },
+            {
+              "key": "R1:F3",
+              "prediction": "- High: 40.0%\n- Medium: 50.0%\n- Low: 8.0%\n- Other: 2.0%"
+            },
+            {
+              "key": "R1:F4",
+              "prediction": "- High: 32.0%\n- Medium: 43.0%\n- Low: 20.0%\n- Other: 5.0%"
+            }
+          ],
+          "cost": 0.2289,
+          "minutes": 0.74,
+          "truncated": false
+        }
+      ]
+    },
+    {
+      "post_id": 46626,
+      "question_id": 46886,
+      "title": "How many votes of no confidence will Thai PM Anutin Charnvirakul receive?",
+      "url": "https://www.metaculus.com/questions/46626/",
+      "question_type": "multiple_choice",
+      "status": "closed",
+      "resolution": null,
+      "actual_resolve_time": null,
+      "spot_scoring_time": "2026-11-21T15:00:00Z",
+      "options": [
+        "140 or fewer",
+        "141-144",
+        "145-148",
+        "149-154",
+        "155 or more"
+      ],
+      "group_label": null,
+      "conditional_branch": null,
+      "forecasted": true,
+      "forecast": {
+        "probabilities": {
+          "140 or fewer": 0.14333333333333337,
+          "141-144": 0.19333333333333338,
+          "145-148": 0.32999999999999985,
+          "149-154": 0.21000000000000008,
+          "155 or more": 0.12333333333333335
+        }
+      },
+      "forecast_time": "2026-11-21T12:32:52.542652Z",
+      "scores": null,
+      "project_id": 33121,
+      "project_slug": "fall-futureeval-2026",
+      "project_name": "Fall 2026 FutureEval Bot Tournament",
+      "traces": [
+        {
+          "comment_id": 1349652,
+          "run_time": "2026-11-21T12:32:56.782256Z",
+          "question_text": "How many votes of no confidence will Thai PM Anutin Charnvirakul receive?",
+          "forecasters": [
+            {
+              "key": "R1:F1",
+              "prediction": "- 140 or fewer: 15.0%\n- 141-144: 15.0%\n- 145-148: 30.0%\n- 149-154: 25.0%\n- 155 or more: 15.0%"
+            },
+            {
+              "key": "R1:F2",
+              "prediction": "- 140 or fewer: 12.0%\n- 141-144: 23.0%\n- 145-148: 35.0%\n- 149-154: 20.0%\n- 155 or more: 10.0%"
+            },
+            {
+              "key": "R1:F3",
+              "prediction": "- 140 or fewer: 16.0%\n- 141-144: 20.0%\n- 145-148: 34.0%\n- 149-154: 18.0%\n- 155 or more: 12.0%"
+            }
+          ],
+          "cost": 0.2443,
+          "minutes": 0.76,
+          "truncated": false
+        }
+      ]
+    },
     {
       "post_id": 46625,
       "question_id": 46885,

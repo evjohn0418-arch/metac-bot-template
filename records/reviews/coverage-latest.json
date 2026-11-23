@@ -1,13 +1,17 @@
 {
-  "generated": "2026-11-20T18:52:32+00:00",
+  "generated": "2026-11-23T07:30:07+00:00",
   "main": {
     "tournament": "33121",
-    "questions": 168,
-    "forecast": 12,
+    "questions": 172,
+    "forecast": 16,
     "by_status": {
+      "open": {
+        "questions": 1,
+        "forecast": 1
+      },
       "closed": {
-        "questions": 129,
-        "forecast": 12
+        "questions": 132,
+        "forecast": 15
       },
       "resolved": {
         "questions": 39,
@@ -18,7 +22,7 @@
     "missed_after_bot_started": 0,
     "open_not_yet_forecast": 0,
     "missed_examples": [],
-    "coverage_pct": 7.1
+    "coverage_pct": 9.3
   },
   "minibench": {
     "tournament": "minibench",
