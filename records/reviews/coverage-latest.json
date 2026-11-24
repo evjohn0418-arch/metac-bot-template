@@ -1,28 +1,47 @@
 {
-  "generated": "2026-11-23T07:30:07+00:00",
+  "generated": "2026-11-24T20:44:24+00:00",
   "main": {
     "tournament": "33121",
-    "questions": 172,
-    "forecast": 16,
+    "questions": 178,
+    "forecast": 18,
     "by_status": {
+      "closed": {
+        "questions": 125,
+        "forecast": 18
+      },
       "open": {
         "questions": 1,
-        "forecast": 1
-      },
-      "closed": {
-        "questions": 132,
-        "forecast": 15
+        "forecast": 0
       },
       "resolved": {
-        "questions": 39,
+        "questions": 52,
         "forecast": 0
       }
     },
     "missed_before_bot_started": 156,
-    "missed_after_bot_started": 0,
-    "open_not_yet_forecast": 0,
-    "missed_examples": [],
-    "coverage_pct": 9.3
+    "missed_after_bot_started": 3,
+    "open_not_yet_forecast": 1,
+    "missed_examples": [
+      {
+        "url": "https://www.metaculus.com/questions/46633",
+        "opened": "2026-11-24T15:00:00+00:00",
+        "closes": "2026-11-24T18:00:00+00:00",
+        "status": "closed"
+      },
+      {
+        "url": "https://www.metaculus.com/questions/46632",
+        "opened": "2026-11-24T12:00:00+00:00",
+        "closes": "2026-11-24T15:00:00+00:00",
+        "status": "closed"
+      },
+      {
+        "url": "https://www.metaculus.com/questions/46631",
+        "opened": "2026-11-24T06:00:00+00:00",
+        "closes": "2026-11-24T09:00:00+00:00",
+        "status": "closed"
+      }
+    ],
+    "coverage_pct": 10.1
   },
   "minibench": {
     "tournament": "minibench",
