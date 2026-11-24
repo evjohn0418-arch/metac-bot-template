@@ -10,6 +10,10 @@ Newest first. Each entry: date, what changed, the evidence, who decided.
 - Response: the schedule goes back to every 20 minutes, the setting that ran without trouble from
   Nov 17 to Nov 20, and the workflows were re-enabled from the Actions page under the owner's
   standing instruction to run the GitHub setup and scheduled runs.
+- 20:45 UTC: the manual run had sat in "Queued" for 1h45 and no scheduled run had started. GitHub
+  billing shows no problem (public repository, $0 billable). The schedule change was pushed a minute
+  before the re-enable, so it may not have registered: the stuck run was cancelled and the workflow
+  file touched again to register the schedule afresh.
 
 ## 2026-11-21: parser set to temperature 0 (agent)
 

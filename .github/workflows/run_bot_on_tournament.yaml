@@ -3,7 +3,7 @@ name: Forecast on new AI tournament questions
 on:
   workflow_dispatch:
   schedule:
-    - cron: "7,27,47 * * * *" # every 20 minutes, offset off the hour
+    - cron: "7,27,47 * * * *" # every 20 minutes, offset off the hour (re-registered Nov 24 after GitHub re-enabled the fork's workflows)
 
 # One run at a time; a run that is still going makes the next one wait.
 concurrency:
