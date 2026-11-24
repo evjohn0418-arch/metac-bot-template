@@ -14,6 +14,10 @@ Newest first. Each entry: date, what changed, the evidence, who decided.
   billing shows no problem (public repository, $0 billable). The schedule change was pushed a minute
   before the re-enable, so it may not have registered: the stuck run was cancelled and the workflow
   file touched again to register the schedule afresh.
+- 20:45 UTC: a fresh manual run started and finished normally, forecasting 1 open main question.
+  The stuck run #168 cannot be cancelled ("has not been queued yet") and is left alone. Outage:
+  about 20.7 hours (Nov 24 00:04 to 20:45 UTC). The coverage count shows 3 main questions opened and
+  closed in that window without a forecast.
 
 ## 2026-11-21: parser set to temperature 0 (agent)
 
