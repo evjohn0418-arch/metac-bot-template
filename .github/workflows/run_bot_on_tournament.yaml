@@ -3,7 +3,7 @@ name: Forecast on new AI tournament questions
 on:
   workflow_dispatch:
   schedule:
-    - cron: "2,12,22,32,42,52 * * * *" # every 10 minutes; GitHub often starts scheduled runs late or skips them
+    - cron: "7,27,47 * * * *" # every 20 minutes, offset off the hour
 
 # One run at a time; a run that is still going makes the next one wait.
 concurrency:

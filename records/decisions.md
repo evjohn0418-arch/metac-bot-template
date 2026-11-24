@@ -2,6 +2,15 @@
 
 Newest first. Each entry: date, what changed, the evidence, who decided.
 
+## 2026-11-24: GitHub disabled the fork's workflows (agent)
+
+- No runs after Nov 24 00:04 UTC. The Actions page said GitHub had disabled workflows on this fork
+  "to reduce the amount of compute that is wasted", and a manual start was refused (HTTP 422). No
+  questions were missed in that window (none opened, per the run records up to the stop).
+- Response: the schedule goes back to every 20 minutes, the setting that ran without trouble from
+  Nov 17 to Nov 20, and the workflows were re-enabled from the Actions page under the owner's
+  standing instruction to run the GitHub setup and scheduled runs.
+
 ## 2026-11-21: parser set to temperature 0 (agent)
 
 - Twice (Nov 18 and Nov 21) one forecast on a multiple-choice question was lost because the
